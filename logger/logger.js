@@ -14,23 +14,24 @@ const accessLogConf = logConf.morgan;
 
 const loggerSession = cls.createNamespace(appLogConf.name);
 
-// const morganString = mformat(`:remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" 
+// const morganString = mformat(`:remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version"
 // :status :res[content-length] ":referrer" ":user-agent" ":req[${constants.X_REQUEST_ID_HEADER}]"`);
 
-const morganString2 = mformat({
-    "remote-addr": ':remote-addr',
-    "remote-user": ':remote-user',
-    "logTime": '[:date[clf]]',
+const morganString = mformat({
+    'remote-addr': ':remote-addr',
+    'remote-user': ':remote-user',
+    logTime: '[:date[clf]]',
     method: ':method',
     url: ':url',
-    "http-version": ':http-version',
+    'http-version': ':http-version',
     status: ':status',
     res: ':res[content-length]',
     referrer: ':referrer',
-    "user-agent": ':user-agent',
-    "req": `:req[${constants.X_REQUEST_ID_HEADER}]`,
-    appCode: 'abcd'
-})
+    'user-agent': ':user-agent',
+    req: `:req[${constants.X_REQUEST_ID_HEADER}]`,
+    appCode: 'enterprise-microservice-template',
+});
+
 const { logDir } = logConf;
 
 if (!fs.existsSync(logDir)) {
@@ -72,7 +73,7 @@ Object.keys(bunyan.levelFromName).forEach((name) => {
     Logger.prototype[name] = function getFunc(error, ...any) {
         if (logConf.disableApiLogs) return function noLogging() { };
         if (!error) return internalLogger[name]();
-        return internalLogger[name]({ req_Id: getReqId() }, error, ...any);
+        return internalLogger[name]({ req: getReqId() }, error, ...any);
     };
 });
 
@@ -88,7 +89,7 @@ Logger.prototype.createLogSessionForRequest = function createLogSessionForReques
 
 Logger.prototype.setupAccessLogForRequest = function setupAccessLogger(app) {
     if (logConf.disableAccessLogs) return;
-    app.use(morgan(morganString2, {
+    app.use(morgan(morganString, {
         stream: accessLogStream,
     }));
 };

@@ -1,5 +1,3 @@
-
-
 const express = require('express');
 const validate = require('express-validation');
 const HttpError = require('standard-http-error');
@@ -48,8 +46,8 @@ router.get('/', (req, res, next) => {
                 email: 'ankit.pareek.@infoedge.com',
             }],
         };
-        logger.debug('here: Got users');
-        logger.info('Got users: ', users);
+        logger.debug('here: Got users', users);
+        logger.info('Got users:');
         res.send(users);
     } catch (e) {
         logger.error(e);
@@ -76,7 +74,6 @@ router.get('/fake-error', (req, res, next) => {
     logger.debug('here: In fake-error');
     try {
         throw new Error('ohhhh boi');
-        res.send(users);
     } catch (e) {
         logger.error(e);
         next(new HttpError(HttpStatusCode.INTERNAL_SERVER_ERROR, { stack: e }));

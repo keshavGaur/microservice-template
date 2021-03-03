@@ -19,6 +19,11 @@ BunyanStreamInterceptor.prototype.write = function write(rec) {
     logRecord.level = bunyan.nameFromLevel[logRecord.level];
     logRecord.appCode = logRecord.name;
     logRecord.logTime = logRecord.time;
+    logRecord.message = logRecord.msg;
+    delete logRecord.name;
+    delete logRecord.time;
+    delete logRecord.msg;
+    delete logRecord.v;
     const str = `${JSON.stringify(logRecord, safeCycles())}\n`;
     this.stream.write(str);
 };
