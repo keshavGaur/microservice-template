@@ -1,5 +1,5 @@
 {
-  "name": "enterprise-microservice-template",
+  "name": "microservice-template",
   "version": "0.0.1",
   "description": "A template for small REST service",
   "private": true,

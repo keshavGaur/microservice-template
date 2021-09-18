@@ -1,4 +1,4 @@
-# EnterpriseMicroServiceTemplate
+# MicroServiceTemplate
 Template Micro Service for Enterprise
 
 ## USAGE:
